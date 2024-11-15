@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    .wrapper {
+      display: grid;
+      grid-template-columns: 250px 150px auto 150px 300px ;
+      grid-gap: 20px;
+      grid-auto-rows: minmax(100px, auto);
+    }
+    .s1 {
+      grid-column: 1 / 6;
+      grid-row: 1;
+      background: #19CAAD;
+    }
+    .s2 {
+      grid-column: 1;
+      grid-row: 2;
+      background: #8CC7B5;
+    }
+
+    .s3 {
+      grid-column: 1;
+      grid-row:3/5;
+      background: #BEE7E9;
+    }
+    .s4 {
+      grid-row: 2;
+      grid-column: 2/6;
+      background: #D1BA74;
+    }
+    .s5 {
+      grid-column: 2;
+      grid-row: 3;
+      background: #E6CEAC;
+    }
+    .s6 {
+      grid-column: 3;
+      grid-row: 3;
+      background: #ECAD9E;
+    }
+    .s7 {
+      grid-column: 4;
+      grid-row: 3;
+      background: #ECAD9E;
+    }
+    .s8 {
+      grid-column: 5;
+      grid-row: 3;
+      background: #ECAD9E;
+    }
+    .s9 {
+      grid-column: 2;
+      grid-row: 4;
+      background: #ECAD9E;
+    }
+    .s10 {
+      grid-column: 3;
+      grid-row: 4;
+      background: #ECAD9E;
+    }
+    .s11 {
+      grid-column: 4;
+      grid-row: 4;
+      background: #ECAD9E;
+    }
+    .s12 {
+      grid-column: 5;
+      grid-row: 4;
+      background: #ECAD9E;
+    }
+    .item {
+      text-align: center;
+      font-size: 200%;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="s1 item">1</div>
+  <div class="s2 item">2</div>
+  <div class="s3 item">3</div>
+  <div class="s4 item">4</div>
+  <div class="s5 item">5</div>
+  <div class="s6 item">6</div>
+  <div class="s7 item">7</div>
+  <div class="s8 item">8</div>
+  <div class="s9 item">9</div>
+  <div class="s10 item">10</div>
+  <div class="s11 item">11</div>
+  <div class="s12 item">12</div>
+</div>
+</body>
+</html>
