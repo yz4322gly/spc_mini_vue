@@ -119,6 +119,15 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+      <el-form-item label="中心线" prop="cl">
+        <el-input
+          v-model="queryParams.cl"
+          placeholder="请输入中心线"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="设计目标值" prop="target">
         <el-input
           v-model="queryParams.target"
@@ -210,6 +219,7 @@
       <el-table-column label="下规格线" align="center" prop="lsl" />
       <el-table-column label="上控制线" align="center" prop="ucl" />
       <el-table-column label="下控制线" align="center" prop="lcl" />
+      <el-table-column label="中心线" align="center" prop="cl" />
       <el-table-column label="设计目标值" align="center" prop="target" />
       <el-table-column label="检查oos" align="center" prop="checkOos">
         <template slot-scope="scope">
@@ -301,6 +311,9 @@
         </el-form-item>
         <el-form-item label="下控制线" prop="lcl">
           <el-input v-model="form.lcl" placeholder="请输入下控制线" />
+        </el-form-item>
+        <el-form-item label="中心线" prop="cl">
+          <el-input v-model="form.cl" placeholder="请输入中心线" />
         </el-form-item>
         <el-form-item label="设计目标值" prop="target">
           <el-input v-model="form.target" placeholder="请输入设计目标值" />
@@ -491,6 +504,7 @@ export default {
         lsl: null,
         ucl: null,
         lcl: null,
+        cl: null,
         target: null,
         checkOos: null,
         checkOoc: null
@@ -563,6 +577,7 @@ export default {
         lsl: null,
         ucl: null,
         lcl: null,
+        cl: null,
         target: null,
         checkOos: null,
         checkOoc: null

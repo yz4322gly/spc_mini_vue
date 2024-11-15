@@ -112,6 +112,9 @@
             <el-form-item label="cl">
               <el-input-number v-model="dData.dp1.cl" controls-position="right"/>
             </el-form-item>
+            <el-form-item label="target">
+              <el-input-number v-model="dData.dp1.target" controls-position="right"/>
+            </el-form-item>
             <el-form-item label="lcl">
               <el-input-number v-model="dData.dp1.lcl" controls-position="right"/>
             </el-form-item>
@@ -658,7 +661,8 @@ export default {
         lsl: this.dData.dp1.lsl,
         ucl: this.dData.dp1.ucl,
         lcl: this.dData.dp1.lcl,
-        target: this.dData.dp1.cl
+        cl: this.dData.dp1.cl,
+        target: this.dData.dp1.target
       };
       updateChart(fx).then(response => {
         this.$modal.msgSuccess("保存成功,cl会被保存为target");
@@ -863,7 +867,7 @@ export default {
         if (this.oData.chart.ucl && !auto) {
           ucl = this.oData.chart.ucl;
           lcl = this.oData.chart.lcl;
-          cl = this.oData.chart.target;
+          cl = this.oData.chart.cl;
         } else {
           let calcCL = this.calculateControlLine(childChartType, mid, mean, range, std, usl, lsl);
           ucl = calcCL.ucl;
@@ -973,7 +977,7 @@ export default {
         if (this.oData.chart.ucl && !auto) {
           ucl = this.oData.chart.ucl;
           lcl = this.oData.chart.lcl;
-          cl = this.oData.chart.target;
+          cl = this.oData.chart.cl;
         } else {
           let calcCL = this.calculateControlLine(childChartType, mid, mean, range, std, usl, lsl);
           ucl = calcCL.ucl;
@@ -1082,7 +1086,7 @@ export default {
         if (this.oData.chart.ucl && !auto) {
           ucl = this.oData.chart.ucl;
           lcl = this.oData.chart.lcl;
-          cl = this.oData.chart.target;
+          cl = this.oData.chart.cl;
         } else {
           let calcCL = this.calculateControlLine(childChartType, mid, mean, range, std, usl, lsl);
           ucl = calcCL.ucl;
@@ -1636,7 +1640,7 @@ export default {
       }
       //从数据库来的参数情况
       else {
-        rs.cl = this.oData.chart.target;
+        rs.cl = this.oData.chart.cl;
         rs.ucl = this.oData.chart.ucl;
         rs.lcl = this.oData.chart.lcl;
       }
