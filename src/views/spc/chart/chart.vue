@@ -533,6 +533,8 @@ export default {
       dData: {
         //二维数组的数据格式
         data: [],
+        globalMin:0,
+        globalMax:0,
         //主图的绘制参数,dp的参数会被方法覆盖,这里写是为了在加载的时候页面找不到数据而报错设计的
         dp1: {
           //这些参数需要被预定义,不然调用toFixed方法时会出现未定义异常,
@@ -719,10 +721,24 @@ export default {
      * 实际参数:this.oData.... 返回结果到this.dData
      */
     analyzeData() {
+      // 计算所有列的最大值,和最小值,也就是内部数据的极大值,和极小值
+      let globalMin = Infinity;
+      let globalMax = -Infinity;
       // 将服务器的对象数组按this.columns转二维数组
       this.dData.data = this.oData.summaryList.map(item => {
+        // 更新最小 min 值
+        if (item.min < globalMin) {
+          globalMin = item.min;
+        }
+        // 更新最大 max 值
+        if (item.max > globalMax) {
+          globalMax = item.max;
+        }
         return this.columns.map(col => item[col]);
       });
+
+      this.dData.globalMin = globalMin;
+      this.dData.globalMax = globalMax;
 
       // 设定1级图表类型,将图表类型传递给chartConfig
       this.dData.chartConfig.mainChartType = this.oData.chart.type;
@@ -1671,7 +1687,62 @@ export default {
       }
       return rs;
     },
-
+    creatMarkLine(dp, legend){
+      let markLine = [];
+      if (legend.uclShow) {
+        markLine.push(
+          {
+            name: 'UCL',
+            yAxis: dp.ucl,
+            lineStyle: {color: yellow},
+            label: {color: yellow, formatter: 'UCL:' + dp.ucl, fontSize: 10}
+          });
+      }
+      if (legend.clShow) {
+        markLine.push(
+          {
+            name: 'CL',
+            yAxis: dp.cl,
+            lineStyle: {color: green},
+            label: {color: green, formatter: 'CL:' + dp.cl, fontSize: 10}
+          });
+      }
+      if (legend.lclShow) {
+        markLine.push(
+          {
+            name: 'LCL',
+            yAxis: dp.lcl,
+            lineStyle: {color: yellow},
+            label: {color: yellow, formatter: 'LCL:' + dp.lcl, fontSize: 10}
+          });
+      }
+      //存在usl时绘制usl和lsl线
+      if (dp.usl && legend.uslShow) {
+        markLine.push({
+          name: 'USL',
+          yAxis: dp.usl,
+          lineStyle: {color: red},
+          label: {color: red, formatter: 'USL:' + dp.usl, fontSize: 10}
+        });
+      }
+      if (dp.target && legend.targetShow) {
+        markLine.push({
+          name: 'TARGET',
+          yAxis: dp.target,
+          lineStyle: {color: blue},
+          label: {color: blue, formatter: 'TARGET:' + dp.target, fontSize: 10}
+        });
+      }
+      if (dp.lsl && legend.lslShow) {
+        markLine.push({
+          name: 'LSL',
+          yAxis: dp.lsl,
+          lineStyle: {color: red},
+          label: {color: red, formatter: 'LSL:' + dp.lsl, fontSize: 10}
+        });
+      }
+      return markLine;
+    },
     /**
      * 创建Option
      * title 标题
@@ -1695,59 +1766,7 @@ export default {
      */
     createOption(dp, legend, drawChartType) {
       if (drawChartType === 1) {
-        let markLine = [];
-        if (legend.uclShow) {
-          markLine.push(
-            {
-              name: 'UCL',
-              yAxis: dp.ucl,
-              lineStyle: {color: yellow},
-              label: {color: yellow, formatter: 'UCL:' + dp.ucl, fontSize: 10}
-            });
-        }
-        if (legend.clShow) {
-          markLine.push(
-            {
-              name: 'CL',
-              yAxis: dp.cl,
-              lineStyle: {color: green},
-              label: {color: green, formatter: 'CL:' + dp.cl, fontSize: 10}
-            });
-        }
-        if (legend.lclShow) {
-          markLine.push(
-            {
-              name: 'LCL',
-              yAxis: dp.lcl,
-              lineStyle: {color: yellow},
-              label: {color: yellow, formatter: 'LCL:' + dp.lcl, fontSize: 10}
-            });
-        }
-        //存在usl时绘制usl和lsl线
-        if (dp.usl && legend.uslShow) {
-          markLine.push({
-            name: 'USL',
-            yAxis: dp.usl,
-            lineStyle: {color: red},
-            label: {color: red, formatter: 'USL:' + dp.usl, fontSize: 10}
-          });
-        }
-        if (dp.target && legend.targetShow) {
-          markLine.push({
-            name: 'TARGET',
-            yAxis: dp.target,
-            lineStyle: {color: blue},
-            label: {color: blue, formatter: 'TARGET:' + dp.target, fontSize: 10}
-          });
-        }
-        if (dp.lsl && legend.lslShow) {
-          markLine.push({
-            name: 'LSL',
-            yAxis: dp.lsl,
-            lineStyle: {color: red},
-            label: {color: red, formatter: 'LSL:' + dp.lsl, fontSize: 10}
-          });
-        }
+        let markLine = this.creatMarkLine(dp,legend);
         return {
           grid: {
             left: "5%",
@@ -1911,6 +1930,7 @@ export default {
           ],
         };
       } else if (drawChartType === 2) {
+        let markLine = this.creatMarkLine(dp,legend);
         return {
           grid: {
             left: "5%",
@@ -1940,8 +1960,8 @@ export default {
           },
           yAxis: {
             type: 'value',
-            max: Number((dp.max + 3 * dp.range).toFixed(3)),
-            min: Number((dp.min - 3 * dp.range).toFixed(3)),
+            max: this.dData.globalMax,
+            min: this.dData.globalMin,
           },
           dataset: [
             {
@@ -1963,7 +1983,13 @@ export default {
                 y: ['min',  'q1',  'mid',  'q3',  'max'],
                 // 自动展示列
                 // tooltip: dp.showColumns,
-              }
+              },
+              //定义规格线
+              markLine: {
+                silent: true,
+                symbol: 'none',
+                data: markLine
+              },
             }
           ],
           dataZoom: [
