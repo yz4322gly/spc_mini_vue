@@ -1644,6 +1644,11 @@ export default {
         rs.ucl = this.oData.chart.ucl;
         rs.lcl = this.oData.chart.lcl;
       }
+
+      //控制到小数点后3位,防止位数太长了
+      rs.cl = Number(rs.cl.toFixed(3))
+      rs.ucl = Number(rs.ucl.toFixed(3))
+      rs.lcl = Number(rs.lcl.toFixed(3))
       //加2个小延时,不然会和黏在一块
       if (usl && rs.ucl >= usl) {
         setTimeout(() => {
@@ -1935,8 +1940,8 @@ export default {
           },
           yAxis: {
             type: 'value',
-            max: dp.max + 3 * dp.range,
-            min: dp.min - 3 * dp.range
+            max: Number((dp.max + 3 * dp.range).toFixed(3)),
+            min: Number((dp.min - 3 * dp.range).toFixed(3)),
           },
           dataset: [
             {
