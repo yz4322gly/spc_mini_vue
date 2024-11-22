@@ -7,7 +7,7 @@
       <div class="s2"></div>
       <!--查询条件-->
       <div class="s3">
-        <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="140px">
+        <el-form :model="queryParams" :inline="true" label-width="140px">
           <el-form-item label="数据时间">
             <el-date-picker
               v-model="queryParams.time"
@@ -128,7 +128,7 @@
           </el-form>
         </div>
         <!--图一-->
-        <div id="chart1" style="height: 360px;width: 100%;"/>
+        <div id="chart1" style="height: 480px;width: 100%;"/>
         <!--图例控制-->
         <div class="col-legend">
           <div>
@@ -311,7 +311,8 @@
         </el-form-item>
       </el-form>
 
-      <distribution-chart v-if="distributionChartVisible" :id="right.queryParams.id"
+      <distribution-chart ref="disChart" v-if="distributionChartVisible"
+                          :id="right.queryParams.id"
                           :usl="dData.dp1.usl" :lsl="dData.dp1.lsl"
                           :theory="dData.dp1.target"
       />
@@ -343,8 +344,6 @@
           @pagination="getDetails"
         />
       </div>
-
-
     </el-dialog>
 
     <!-- OOC规则-->
@@ -1279,6 +1278,11 @@ export default {
       this.right.queryParams.id = this.right.data[0]
       this.right.queryParams.pageNum = 1
       this.getDetails()
+      if (this.$refs.disChart) {
+        this.$nextTick(() => {
+          this.$refs.disChart.drawChart();
+        })
+      }
       this.right.rightVisible = false
     },
     /**
