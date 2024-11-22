@@ -16,7 +16,8 @@
               value-format="yyyy-MM-dd"
               range-separator="至"
               start-placeholder="开始日期"
-              end-placeholder="结束日期">
+              end-placeholder="结束日期"
+            >
             </el-date-picker>
           </el-form-item>
           <el-form-item label="限制数据">
@@ -49,7 +50,8 @@
               <el-form-item label="图表类型">
                 <el-select v-model="dData.chartConfig.mainChartType" placeholder="请选择图表类型">
                   <el-option v-for="item in chartTypeOptions" :key="item.value" :label="item.label"
-                             :value="item.value"/>
+                             :value="item.value"
+                  />
                 </el-select>
               </el-form-item>
               <div v-if="dData.chartConfig.mainChartType === 1">
@@ -131,32 +133,38 @@
         <div class="col-legend">
           <div>
             <el-switch @change="redrawChart" class="switch-small" v-model="legend.uslShow" :active-color=color.red
-                       inactive-color="#dcdfe6"/>
+                       inactive-color="#dcdfe6"
+            />
             USL
           </div>
           <div>
             <el-switch @change="redrawChart" class="switch-small" v-model="legend.uclShow" :active-color=color.yellow
-                       inactive-color="#dcdfe6"/>
+                       inactive-color="#dcdfe6"
+            />
             UCL
           </div>
           <div>
             <el-switch @change="redrawChart" class="switch-small" v-model="legend.clShow" :active-color=color.green
-                       inactive-color="#dcdfe6"/>
+                       inactive-color="#dcdfe6"
+            />
             CL
           </div>
           <div>
             <el-switch @change="redrawChart" class="switch-small" v-model="legend.targetShow" :active-color=color.blue
-                       inactive-color="#dcdfe6"/>
+                       inactive-color="#dcdfe6"
+            />
             TARGET
           </div>
           <div>
             <el-switch @change="redrawChart" class="switch-small" v-model="legend.lclShow" :active-color=color.yellow
-                       inactive-color="#dcdfe6"/>
+                       inactive-color="#dcdfe6"
+            />
             LCL
           </div>
           <div>
             <el-switch @change="redrawChart" class="switch-small" v-model="legend.lslShow" :active-color=color.red
-                       inactive-color="#dcdfe6"/>
+                       inactive-color="#dcdfe6"
+            />
             LSL
           </div>
         </div>
@@ -201,17 +209,20 @@
         <div class="col-legend">
           <div>
             <el-switch @change="redrawChart" class="switch-small" v-model="legend2.uclShow" :active-color=color.yellow
-                       inactive-color="#dcdfe6"/>
+                       inactive-color="#dcdfe6"
+            />
             UCL
           </div>
           <div>
             <el-switch @change="redrawChart" class="switch-small" v-model="legend2.clShow" :active-color=color.green
-                       inactive-color="#dcdfe6"/>
+                       inactive-color="#dcdfe6"
+            />
             CL
           </div>
           <div>
             <el-switch @change="redrawChart" class="switch-small" v-model="legend2.lclShow" :active-color=color.yellow
-                       inactive-color="#dcdfe6"/>
+                       inactive-color="#dcdfe6"
+            />
             LCL
           </div>
         </div>
@@ -242,11 +253,12 @@
       <el-table :data="summaryDiv.showSummaryList" style="margin-top: 20px;">
         <el-table-column v-if="!summaryDiv.validFlag">
           <template slot-scope="scope">
-            <el-button size="small" type=primary @click="handleShowSummery(scope.row.id)">显示点</el-button>
+            <el-button size="small" type="primary" @click="handleShowSummery(scope.row.id)">显示点</el-button>
           </template>
         </el-table-column>
         <el-table-column show-overflow-tooltip v-for="(item,index) in columns"
-                         :label="item" :key="index" align="center" :prop="item" width="100">
+                         :label="item" :key="index" align="center" :prop="item" width="100"
+        >
         </el-table-column>
       </el-table>
       <pagination
@@ -255,7 +267,8 @@
         :total="summaryDiv.total"
         :page.sync="summaryDiv.pageNum"
         :limit.sync="summaryDiv.pageSize"
-        @pagination="getShowSummary"/>
+        @pagination="getShowSummary"
+      />
     </el-dialog>
 
     <!-- 使用说明 -->
@@ -270,7 +283,8 @@
 
     <!-- 自定义右键菜单 -->
     <div id="rightMenu" v-show="right.rightVisible" class="right-menu"
-         :style="{top: right.topNumber+'px', left: right.leftNumber+'px'}">
+         :style="{top: right.topNumber+'px', left: right.leftNumber+'px'}"
+    >
       <el-menu>
         <el-menu-item @click="showDetails">查看原始数据</el-menu-item>
         <el-menu-item @click="handleHiddenSummery">隐藏点</el-menu-item>
@@ -288,32 +302,49 @@
         </el-descriptions-item>
       </el-descriptions>
 
-      <el-table :data="right.details.dataList" style="margin-top: 20px;">
-        <el-table-column show-overflow-tooltip label="批次号" align="center" prop="lotId" width="100"/>
-        <el-table-column show-overflow-tooltip label="数据时间" align="center" prop="dataTime" width="180"/>
-        <el-table-column show-overflow-tooltip label="参数值" align="center" prop="paramValue"/>
-        <el-table-column show-overflow-tooltip label="设备号" align="center" prop="toolId"/>
-        <el-table-column show-overflow-tooltip label="配方号" align="center" prop="recipeId"/>
-        <el-table-column show-overflow-tooltip label="产品号" align="center" prop="productId"/>
-        <el-table-column show-overflow-tooltip label="站点号" align="center" prop="siteId"/>
-        <el-table-column show-overflow-tooltip label="工艺号" align="center" prop="processId"/>
-        <el-table-column show-overflow-tooltip label="注释" align="center" prop="remark"/>
-        <el-table-column show-overflow-tooltip label="是否隐藏" align="center" prop="validFlag">
-          <template slot-scope="scope">
-            <el-tag v-if="scope.row.validFlag === 1" type=primary>正常</el-tag>
-            <el-tag v-else type=info>隐藏</el-tag>
-          </template>
-        </el-table-column>
-      </el-table>
+      <el-form style="margin-top: 20px;" :inline="true">
+        <el-form-item label="显示数据视图">
+          <el-switch v-model="dataChartVisible"></el-switch>
+        </el-form-item>
+        <el-form-item label="显示正态分布">
+          <el-switch v-model="distributionChartVisible"></el-switch>
+        </el-form-item>
+      </el-form>
 
-      <pagination
-        :page-sizes="[5,10,20,200,500,100]"
-        v-show="right.details.total>0"
-        :total="right.details.total"
-        :page.sync="right.queryParams.pageNum"
-        :limit.sync="right.queryParams.pageSize"
-        @pagination="getDetails"
+      <distribution-chart v-if="distributionChartVisible" :id="right.queryParams.id"
+                          :usl="dData.dp1.usl" :lsl="dData.dp1.lsl"
+                          :theory="dData.dp1.target"
       />
+      <div v-if="dataChartVisible">
+        <el-table :data="right.details.dataList" style="margin-top: 20px;">
+          <el-table-column show-overflow-tooltip label="批次号" align="center" prop="lotId" width="100"/>
+          <el-table-column show-overflow-tooltip label="数据时间" align="center" prop="dataTime" width="180"/>
+          <el-table-column show-overflow-tooltip label="参数值" align="center" prop="paramValue"/>
+          <el-table-column show-overflow-tooltip label="设备号" align="center" prop="toolId"/>
+          <el-table-column show-overflow-tooltip label="配方号" align="center" prop="recipeId"/>
+          <el-table-column show-overflow-tooltip label="产品号" align="center" prop="productId"/>
+          <el-table-column show-overflow-tooltip label="站点号" align="center" prop="siteId"/>
+          <el-table-column show-overflow-tooltip label="工艺号" align="center" prop="processId"/>
+          <el-table-column show-overflow-tooltip label="注释" align="center" prop="remark"/>
+          <el-table-column show-overflow-tooltip label="是否隐藏" align="center" prop="validFlag">
+            <template slot-scope="scope">
+              <el-tag v-if="scope.row.validFlag === 1" type="primary">正常</el-tag>
+              <el-tag v-else type="info">隐藏</el-tag>
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <pagination
+          :page-sizes="[5,10,20,200,500,100]"
+          v-show="right.details.total>0"
+          :total="right.details.total"
+          :page.sync="right.queryParams.pageNum"
+          :limit.sync="right.queryParams.pageSize"
+          @pagination="getDetails"
+        />
+      </div>
+
+
     </el-dialog>
 
     <!-- OOC规则-->
@@ -435,27 +466,32 @@
 </template>
 
 <script>
-import * as echarts from "echarts";
-import * as utils from '../utils';
-import {chartSummaryData, listChart, listDataBySummaryId, saveOOC, updateChart} from "@/api/spc/chart";
-import {delSummary, remarkSummary, hiddenSummary} from "@/api/spc/summary";
+import * as echarts from 'echarts'
+import * as utils from '../utils'
+import { chartSummaryData, listChart, listDataBySummaryId, saveOOC, updateChart } from '@/api/spc/chart'
+import { delSummary, remarkSummary, hiddenSummary } from '@/api/spc/summary'
+import distributionChart from './distribution.vue' // 引入子组件
 
 //定义显示的颜色
-let red = "#FF0000"
-let yellow = "#CCCC00"
-let green = "#009000"
-let blue = "#8582da"
-
+let red = '#FF0000'
+let yellow = '#CCCC00'
+let green = '#009000'
+let blue = '#8582da'
 
 export default {
+  components: {
+    distributionChart // 注册子组件
+  },
   data() {
     //参数定义
     return {
+      distributionChartVisible: false,
+      dataChartVisible: false,
       color: {
         red: red,
         yellow: yellow,
         green: green,
-        blue: blue,
+        blue: blue
       },
       //主chart实例对象
       chart: {},
@@ -483,33 +519,33 @@ export default {
         shortcuts: [{
           text: '最近一周',
           onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', [start, end]);
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', [start, end])
           }
         }, {
           text: '最近一个月',
           onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-            picker.$emit('pick', [start, end]);
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            picker.$emit('pick', [start, end])
           }
         }, {
           text: '最近三个月',
           onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-            picker.$emit('pick', [start, end]);
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            picker.$emit('pick', [start, end])
           }
         }]
       },
       //预定义维度数组,注意顺序,不要轻易改变,注意需要调整analyzeData的转二维数组的内容
-      columns: ["id", "createTime", "updateTime", "lotId", "dataTime", "paramKey", "mean", "mid", "q1", "q3", "rangeSpan",
-        "std", "max", "min", "sampleSize", "toolId", "recipeId", "productId", "siteId", "processId", "validFlag", "remark"],
-      showColumns: ["dataTime", "mean", "lotId", "sampleSize", "toolId", "recipeId", "productId", "siteId", "processId", "remark"],
+      columns: ['id', 'createTime', 'updateTime', 'lotId', 'dataTime', 'paramKey', 'mean', 'mid', 'q1', 'q3', 'rangeSpan',
+        'std', 'max', 'min', 'sampleSize', 'toolId', 'recipeId', 'productId', 'siteId', 'processId', 'validFlag', 'remark'],
+      showColumns: ['dataTime', 'mean', 'lotId', 'sampleSize', 'toolId', 'recipeId', 'productId', 'siteId', 'processId', 'remark'],
       //从服务器获取的原始数据(originalData)
       oData: {
         chart: {},
@@ -527,14 +563,14 @@ export default {
         //是否显示隐藏数据
         validFlag: true,
         //需要查询数据库的时候需要的参数
-        queryParams: {},
+        queryParams: {}
       },
       //绘制图需要的数据格式,(drawData)
       dData: {
         //二维数组的数据格式
         data: [],
-        globalMin:0,
-        globalMax:0,
+        globalMin: 0,
+        globalMax: 0,
         //主图的绘制参数,dp的参数会被方法覆盖,这里写是为了在加载的时候页面找不到数据而报错设计的
         dp1: {
           //这些参数需要被预定义,不然调用toFixed方法时会出现未定义异常,
@@ -551,7 +587,7 @@ export default {
           //dp1需要绘制ooc点
           oocMarkPoint: {
             data: [],
-            symbol: "pin"
+            symbol: 'pin'
           }
         },
         //第二图的绘制参数
@@ -573,7 +609,7 @@ export default {
           k1: 1,
           k2: 1,
           m3: 0.2
-        },
+        }
         //正态分布数据格式
         // normalData: {
         //   //正态分布前后距离
@@ -602,12 +638,12 @@ export default {
         clShow: true,
         targetShow: true,
         lclShow: true,
-        lslShow: true,
+        lslShow: true
       },
       legend2: {
         uclShow: true,
         clShow: true,
-        lclShow: true,
+        lclShow: true
       },
       //第1图的子图类型 1.均值-极差X图 2.均值-极差R图3.均值-标准差X图 4.均值-标准差S图 5.中位数-极差M图 6.中位数-极差R图
       childChartType1: 1,
@@ -637,11 +673,11 @@ export default {
         },
       //是否切换盒须图显示
       boxplotVisible: false
-    };
+    }
   },
   mounted() {
-    this.queryParams.id = new URLSearchParams(window.location.search).get('id');
-    this.init();
+    this.queryParams.id = new URLSearchParams(window.location.search).get('id')
+    this.init()
   },
   methods: {
     /**
@@ -649,8 +685,8 @@ export default {
      * @param params
      */
     closeRight(params) {
-      if (params.button === 0 && params.target.className !== "el-menu-item") {
-        this.right.rightVisible = false;
+      if (params.button === 0 && params.target.className !== 'el-menu-item') {
+        this.right.rightVisible = false
       }
     },
     /**
@@ -665,10 +701,10 @@ export default {
         lcl: this.dData.dp1.lcl,
         cl: this.dData.dp1.cl,
         target: this.dData.dp1.target
-      };
+      }
       updateChart(fx).then(response => {
-        this.$modal.msgSuccess("保存成功,cl会被保存为target");
-      });
+        this.$modal.msgSuccess('保存成功,cl会被保存为target')
+      })
     },
     /**
      * 初始化方法
@@ -677,22 +713,22 @@ export default {
      */
     init() {
       //从dom加载echarts对象
-      let chartDom = document.getElementById("chart1");
-      let chartDom2 = document.getElementById("chart2");
-      let rightMenu = document.getElementById("rightMenu");
+      let chartDom = document.getElementById('chart1')
+      let chartDom2 = document.getElementById('chart2')
+      let rightMenu = document.getElementById('rightMenu')
       //禁用默认的右键事件
-      chartDom.oncontextmenu = function () {
-        return false;
-      };
-      chartDom2.oncontextmenu = function () {
-        return false;
-      };
-      rightMenu.oncontextmenu = function () {
-        return false;
-      };
-      this.chart = echarts.init(chartDom);
-      this.chart2 = echarts.init(chartDom2);
-      this.queryData();
+      chartDom.oncontextmenu = function() {
+        return false
+      }
+      chartDom2.oncontextmenu = function() {
+        return false
+      }
+      rightMenu.oncontextmenu = function() {
+        return false
+      }
+      this.chart = echarts.init(chartDom)
+      this.chart2 = echarts.init(chartDom2)
+      this.queryData()
     },
     /**
      * 从服务器获取原始数据
@@ -706,14 +742,14 @@ export default {
           this.$message.error({
             message: `当前条件下无数据可用`,
             showClose: true
-          });
+          })
           return
         }
-        this.oData.chart = response.chart;
-        this.oData.summaryList = response.summaryList;
+        this.oData.chart = response.chart
+        this.oData.summaryList = response.summaryList
         //解析原始为图表需要的数据
-        this.analyzeData();
-      });
+        this.analyzeData()
+      })
     },
     /**
      * analyzeData 解析基础数据
@@ -722,45 +758,45 @@ export default {
      */
     analyzeData() {
       // 计算所有列的最大值,和最小值,也就是内部数据的极大值,和极小值
-      let globalMin = Infinity;
-      let globalMax = -Infinity;
+      let globalMin = Infinity
+      let globalMax = -Infinity
       // 将服务器的对象数组按this.columns转二维数组
       this.dData.data = this.oData.summaryList.map(item => {
         // 更新最小 min 值
         if (item.min < globalMin) {
-          globalMin = item.min;
+          globalMin = item.min
         }
         // 更新最大 max 值
         if (item.max > globalMax) {
-          globalMax = item.max;
+          globalMax = item.max
         }
-        return this.columns.map(col => item[col]);
-      });
+        return this.columns.map(col => item[col])
+      })
 
-      this.dData.globalMin = globalMin;
-      this.dData.globalMax = globalMax;
+      this.dData.globalMin = globalMin
+      this.dData.globalMax = globalMax
 
       // 设定1级图表类型,将图表类型传递给chartConfig
-      this.dData.chartConfig.mainChartType = this.oData.chart.type;
+      this.dData.chartConfig.mainChartType = this.oData.chart.type
 
       //转换checkOoc
-      this.ooc.config = JSON.parse(this.oData.chart.checkOoc);
+      this.ooc.config = JSON.parse(this.oData.chart.checkOoc)
 
       //拆分子图并绘制
-      this.splitChart();
+      this.splitChart()
     },
     /**
      * 变更x轴的显示数据是 时间,还是lotID
      */
     changeX() {
-      if (this.dData.dp1.x === "dataTime") {
-        this.dData.dp1.x = "lotId"
-        this.dData.dp2.x = "lotId"
+      if (this.dData.dp1.x === 'dataTime') {
+        this.dData.dp1.x = 'lotId'
+        this.dData.dp2.x = 'lotId'
       } else {
-        this.dData.dp1.x = "dataTime"
-        this.dData.dp2.x = "dataTime"
+        this.dData.dp1.x = 'dataTime'
+        this.dData.dp2.x = 'dataTime'
       }
-      this.redrawChart();
+      this.redrawChart()
     },
     /**
      * 转盒须图
@@ -771,27 +807,27 @@ export default {
       } else {
         this.boxplotVisible = true
       }
-      this.redrawChart();
+      this.redrawChart()
     },
     /**
      * 查看数据视图
      */
     showSummaryTable() {
-      this.summaryDiv.validFlag = true;
-      this.summaryDiv.pageNum = 1;
-      this.summaryDiv.total = this.oData.summaryList.length;
-      this.summaryDiv.allSummaryList = this.oData.summaryList;
-      this.getShowSummary();
-      this.summaryDiv.summaryDivVisible = true;
+      this.summaryDiv.validFlag = true
+      this.summaryDiv.pageNum = 1
+      this.summaryDiv.total = this.oData.summaryList.length
+      this.summaryDiv.allSummaryList = this.oData.summaryList
+      this.getShowSummary()
+      this.summaryDiv.summaryDivVisible = true
     },
     getShowSummary() {
-      let pageNum = this.summaryDiv.pageNum;
-      let pageSize = this.summaryDiv.pageSize;
-      this.summaryDiv.showSummaryList = this.summaryDiv.allSummaryList.slice((pageNum - 1) * pageSize, (pageNum - 1) * pageSize + pageSize);
+      let pageNum = this.summaryDiv.pageNum
+      let pageSize = this.summaryDiv.pageSize
+      this.summaryDiv.showSummaryList = this.summaryDiv.allSummaryList.slice((pageNum - 1) * pageSize, (pageNum - 1) * pageSize + pageSize)
     },
     changeSummaryDivValidFlag(validFlag) {
       if (validFlag) {
-        this.showSummaryTable();
+        this.showSummaryTable()
       } else {
         chartSummaryData({
           id: this.queryParams.id,
@@ -803,14 +839,14 @@ export default {
             this.$message.error({
               message: `当前条件下无数据可用`,
               showClose: true
-            });
+            })
             return
           }
-          this.summaryDiv.pageNum = 1;
-          this.summaryDiv.allSummaryList = response.summaryList;
-          this.summaryDiv.total = response.summaryList.length;
-          this.getShowSummary();
-        });
+          this.summaryDiv.pageNum = 1
+          this.summaryDiv.allSummaryList = response.summaryList
+          this.summaryDiv.total = response.summaryList.length
+          this.getShowSummary()
+        })
       }
     },
     /**
@@ -823,27 +859,27 @@ export default {
       switch (this.dData.chartConfig.mainChartType) {
         //X-R时,主图是均值-极差X图,副图是均值-极差R图
         case 1:
-          this.childChartType1 = 1;
-          this.childChartType2 = 2;
-          break;
+          this.childChartType1 = 1
+          this.childChartType2 = 2
+          break
         //X-S时,主图是均值-标准差X图,副图是均值-标准差S图
         case 2:
-          this.childChartType1 = 3;
-          this.childChartType2 = 4;
-          break;
+          this.childChartType1 = 3
+          this.childChartType2 = 4
+          break
         //M-R时,主图是中位数-极差M图,副图是中位数-极差R图
         case 3:
-          this.childChartType1 = 5;
-          this.childChartType2 = 6;
-          break;
+          this.childChartType1 = 5
+          this.childChartType2 = 6
+          break
       }
 
       //创建绘制参数
-      this.dData.dp1 = this.createDp(this.childChartType1);
-      this.dData.dp2 = this.createDp(this.childChartType2);
+      this.dData.dp1 = this.createDp(this.childChartType1)
+      this.dData.dp2 = this.createDp(this.childChartType2)
 
       //要求重绘
-      this.redrawChart();
+      this.redrawChart()
     },
 
     /**
@@ -859,44 +895,44 @@ export default {
     createDp(childChartType, auto) {
       // 均值-极差控制图(均值图)
       if (childChartType === 1) {
-        let usl = this.oData.chart.usl;
-        let lsl = this.oData.chart.lsl;
+        let usl = this.oData.chart.usl
+        let lsl = this.oData.chart.lsl
         //先提取数据,按均值提取
-        let valueData = this.oData.summaryList.map(obj => obj.mean);
+        let valueData = this.oData.summaryList.map(obj => obj.mean)
         //计算其他数据,最大最小cpk什么的
-        let min = Math.min(...valueData);
-        let max = Math.max(...valueData);
-        let mean = valueData.reduce((sum, val) => sum + val, 0) / valueData.length;
-        let mid = utils.getMedianNoSort(valueData);
-        let std = utils.getStd(valueData, mean);
-        let range = max - min;
-        let sampleSize = valueData.length;
-        let ca = utils.calcCa(mean, this.oData.chart.target, usl, lsl);
-        let cp = utils.calcCp(mean, std, usl, lsl);
-        let cpk1 = utils.calcCpk(mean, std, usl, lsl);
-        let cpk2 = utils.calcCpk2(ca, cp);
+        let min = Math.min(...valueData)
+        let max = Math.max(...valueData)
+        let mean = valueData.reduce((sum, val) => sum + val, 0) / valueData.length
+        let mid = utils.getMedianNoSort(valueData)
+        let std = utils.getStd(valueData, mean)
+        let range = max - min
+        let sampleSize = valueData.length
+        let ca = utils.calcCa(mean, this.oData.chart.target, usl, lsl)
+        let cp = utils.calcCp(mean, std, usl, lsl)
+        let cpk1 = utils.calcCpk(mean, std, usl, lsl)
+        let cpk2 = utils.calcCpk2(ca, cp)
 
-        let ucl;
-        let lcl;
-        let cl;
+        let ucl
+        let lcl
+        let cl
         //如果用户设定了ucl,且没有在页面显式的指明自动计算控制线
         if (this.oData.chart.ucl && !auto) {
-          ucl = this.oData.chart.ucl;
-          lcl = this.oData.chart.lcl;
-          cl = this.oData.chart.cl;
+          ucl = this.oData.chart.ucl
+          lcl = this.oData.chart.lcl
+          cl = this.oData.chart.cl
         } else {
-          let calcCL = this.calculateControlLine(childChartType, mid, mean, range, std, usl, lsl);
-          ucl = calcCL.ucl;
-          lcl = calcCL.lcl;
-          cl = calcCL.cl;
+          let calcCL = this.calculateControlLine(childChartType, mid, mean, range, std, usl, lsl)
+          ucl = calcCL.ucl
+          lcl = calcCL.lcl
+          cl = calcCL.cl
         }
 
         return {
-          title: "均值-极差控制图(X图)",
+          title: '均值-极差控制图(X图)',
           data: this.dData.data,
           columns: this.columns,
-          x: "dataTime",
-          y: "mean",
+          x: 'dataTime',
+          y: 'mean',
           showColumns: this.showColumns,
           yIndex: 6,
           usl: usl,
@@ -926,28 +962,28 @@ export default {
       // 均值-极差控制图(极差图)
       if (childChartType === 2) {
         //先提取数据,按极差提取
-        let valueData = this.oData.summaryList.map(obj => obj.rangeSpan);
+        let valueData = this.oData.summaryList.map(obj => obj.rangeSpan)
         //计算其他数据,最大最小cpk什么的
-        let min = Math.min(...valueData);
-        let max = Math.max(...valueData);
-        let mean = valueData.reduce((sum, val) => sum + val, 0) / valueData.length;
-        let mid = utils.getMedianNoSort(valueData);
+        let min = Math.min(...valueData)
+        let max = Math.max(...valueData)
+        let mean = valueData.reduce((sum, val) => sum + val, 0) / valueData.length
+        let mid = utils.getMedianNoSort(valueData)
         let std = utils.getStd(valueData, mean)
-        let range = max - min;
-        let sampleSize = valueData.length;
-        let calcCL = this.calculateControlLine(childChartType, mid, mean, range, std, null, null);
+        let range = max - min
+        let sampleSize = valueData.length
+        let calcCL = this.calculateControlLine(childChartType, mid, mean, range, std, null, null)
 
-        let ucl = calcCL.ucl;
-        let lcl = calcCL.lcl;
-        let cl = calcCL.cl;
+        let ucl = calcCL.ucl
+        let lcl = calcCL.lcl
+        let cl = calcCL.cl
 
         return {
-          title: "均值-极差控制图(R图)",
+          title: '均值-极差控制图(R图)',
           data: this.dData.data,
           columns: this.columns,
           showColumns: this.showColumns,
-          x: "dataTime",
-          y: "rangeSpan",
+          x: 'dataTime',
+          y: 'rangeSpan',
           yIndex: 8,
           //数据库有值先取数据库的
           ucl: ucl,
@@ -969,44 +1005,44 @@ export default {
       }
       // 均值-标准差X图
       if (childChartType === 3) {
-        let usl = this.oData.chart.usl;
-        let lsl = this.oData.chart.lsl;
+        let usl = this.oData.chart.usl
+        let lsl = this.oData.chart.lsl
         //先提取数据,按均值提取
-        let valueData = this.oData.summaryList.map(obj => obj.mean);
+        let valueData = this.oData.summaryList.map(obj => obj.mean)
         //计算其他数据,最大最小cpk什么的
-        let min = Math.min(...valueData);
-        let max = Math.max(...valueData);
-        let mean = valueData.reduce((sum, val) => sum + val, 0) / valueData.length;
-        let mid = utils.getMedianNoSort(valueData);
+        let min = Math.min(...valueData)
+        let max = Math.max(...valueData)
+        let mean = valueData.reduce((sum, val) => sum + val, 0) / valueData.length
+        let mid = utils.getMedianNoSort(valueData)
         let std = utils.getStd(valueData, mean)
-        let range = max - min;
-        let sampleSize = valueData.length;
-        let ca = utils.calcCa(mean, this.oData.chart.target, usl, lsl);
-        let cp = utils.calcCp(mean, std, usl, lsl);
-        let cpk1 = utils.calcCpk(mean, std, usl, lsl);
-        let cpk2 = utils.calcCpk2(ca, cp);
+        let range = max - min
+        let sampleSize = valueData.length
+        let ca = utils.calcCa(mean, this.oData.chart.target, usl, lsl)
+        let cp = utils.calcCp(mean, std, usl, lsl)
+        let cpk1 = utils.calcCpk(mean, std, usl, lsl)
+        let cpk2 = utils.calcCpk2(ca, cp)
 
-        let ucl;
-        let lcl;
-        let cl;
+        let ucl
+        let lcl
+        let cl
         //如果用户设定了ucl,且没有在页面显式的指明自动计算控制线
         if (this.oData.chart.ucl && !auto) {
-          ucl = this.oData.chart.ucl;
-          lcl = this.oData.chart.lcl;
-          cl = this.oData.chart.cl;
+          ucl = this.oData.chart.ucl
+          lcl = this.oData.chart.lcl
+          cl = this.oData.chart.cl
         } else {
-          let calcCL = this.calculateControlLine(childChartType, mid, mean, range, std, usl, lsl);
-          ucl = calcCL.ucl;
-          lcl = calcCL.lcl;
-          cl = calcCL.cl;
+          let calcCL = this.calculateControlLine(childChartType, mid, mean, range, std, usl, lsl)
+          ucl = calcCL.ucl
+          lcl = calcCL.lcl
+          cl = calcCL.cl
         }
 
         return {
-          title: "均值-标准差控制图(X图)",
+          title: '均值-标准差控制图(X图)',
           data: this.dData.data,
           columns: this.columns,
-          x: "dataTime",
-          y: "mean",
+          x: 'dataTime',
+          y: 'mean',
           showColumns: this.showColumns,
           yIndex: 6,
           usl: usl,
@@ -1036,28 +1072,28 @@ export default {
       // 均值-标准差S图
       if (childChartType === 4) {
         //先提取数据,按极差提取
-        let valueData = this.oData.summaryList.map(obj => obj.std);
+        let valueData = this.oData.summaryList.map(obj => obj.std)
         //计算其他数据,最大最小cpk什么的
-        let min = Math.min(...valueData);
-        let max = Math.max(...valueData);
-        let mean = valueData.reduce((sum, val) => sum + val, 0) / valueData.length;
-        let mid = utils.getMedianNoSort(valueData);
+        let min = Math.min(...valueData)
+        let max = Math.max(...valueData)
+        let mean = valueData.reduce((sum, val) => sum + val, 0) / valueData.length
+        let mid = utils.getMedianNoSort(valueData)
         let std = utils.getStd(valueData, mean)
-        let range = max - min;
-        let sampleSize = valueData.length;
-        let calcCL = this.calculateControlLine(childChartType, mid, mean, range, std, null, null);
+        let range = max - min
+        let sampleSize = valueData.length
+        let calcCL = this.calculateControlLine(childChartType, mid, mean, range, std, null, null)
 
-        let ucl = calcCL.ucl;
-        let lcl = calcCL.lcl;
-        let cl = calcCL.cl;
+        let ucl = calcCL.ucl
+        let lcl = calcCL.lcl
+        let cl = calcCL.cl
 
         return {
-          title: "均值-标准差控制图(S图)",
+          title: '均值-标准差控制图(S图)',
           data: this.dData.data,
           columns: this.columns,
           showColumns: this.showColumns,
-          x: "dataTime",
-          y: "std",
+          x: 'dataTime',
+          y: 'std',
           yIndex: 9,
           //数据库有值先取数据库的
           ucl: ucl,
@@ -1079,43 +1115,43 @@ export default {
       }
       // 中位数-极差控制图(均值图)
       if (childChartType === 5) {
-        let usl = this.oData.chart.usl;
-        let lsl = this.oData.chart.lsl;
+        let usl = this.oData.chart.usl
+        let lsl = this.oData.chart.lsl
         //先提取数据,按均值提取
-        let valueData = this.oData.summaryList.map(obj => obj.mid);
+        let valueData = this.oData.summaryList.map(obj => obj.mid)
         //计算其他数据,最大最小cpk什么的
-        let min = Math.min(...valueData);
-        let max = Math.max(...valueData);
-        let mean = valueData.reduce((sum, val) => sum + val, 0) / valueData.length;
-        let mid = utils.getMedianNoSort(valueData);
+        let min = Math.min(...valueData)
+        let max = Math.max(...valueData)
+        let mean = valueData.reduce((sum, val) => sum + val, 0) / valueData.length
+        let mid = utils.getMedianNoSort(valueData)
         let std = utils.getStd(valueData, mean)
-        let range = max - min;
-        let sampleSize = valueData.length;
-        let ca = utils.calcCa(mean, this.oData.chart.target, usl, lsl);
-        let cp = utils.calcCp(mean, std, usl, lsl);
-        let cpk1 = utils.calcCpk(mean, std, usl, lsl);
-        let cpk2 = utils.calcCpk2(ca, cp);
-        let ucl;
-        let lcl;
-        let cl;
+        let range = max - min
+        let sampleSize = valueData.length
+        let ca = utils.calcCa(mean, this.oData.chart.target, usl, lsl)
+        let cp = utils.calcCp(mean, std, usl, lsl)
+        let cpk1 = utils.calcCpk(mean, std, usl, lsl)
+        let cpk2 = utils.calcCpk2(ca, cp)
+        let ucl
+        let lcl
+        let cl
         //如果用户设定了ucl,且没有在页面显式的指明自动计算控制线
         if (this.oData.chart.ucl && !auto) {
-          ucl = this.oData.chart.ucl;
-          lcl = this.oData.chart.lcl;
-          cl = this.oData.chart.cl;
+          ucl = this.oData.chart.ucl
+          lcl = this.oData.chart.lcl
+          cl = this.oData.chart.cl
         } else {
-          let calcCL = this.calculateControlLine(childChartType, mid, mean, range, std, usl, lsl);
-          ucl = calcCL.ucl;
-          lcl = calcCL.lcl;
-          cl = calcCL.cl;
+          let calcCL = this.calculateControlLine(childChartType, mid, mean, range, std, usl, lsl)
+          ucl = calcCL.ucl
+          lcl = calcCL.lcl
+          cl = calcCL.cl
         }
 
         return {
-          title: "中位数-极差控制图(X图)",
+          title: '中位数-极差控制图(X图)',
           data: this.dData.data,
           columns: this.columns,
-          x: "dataTime",
-          y: "mid",
+          x: 'dataTime',
+          y: 'mid',
           showColumns: this.showColumns,
           yIndex: 7,
           usl: usl,
@@ -1145,28 +1181,28 @@ export default {
       // 中位数-极差控制图(极差图)
       if (childChartType === 6) {
         //先提取数据,按极差提取
-        let valueData = this.oData.summaryList.map(obj => obj.rangeSpan);
+        let valueData = this.oData.summaryList.map(obj => obj.rangeSpan)
         //计算其他数据,最大最小cpk什么的
-        let min = Math.min(...valueData);
-        let max = Math.max(...valueData);
-        let mean = valueData.reduce((sum, val) => sum + val, 0) / valueData.length;
-        let mid = utils.getMedianNoSort(valueData);
+        let min = Math.min(...valueData)
+        let max = Math.max(...valueData)
+        let mean = valueData.reduce((sum, val) => sum + val, 0) / valueData.length
+        let mid = utils.getMedianNoSort(valueData)
         let std = utils.getStd(valueData, mean)
-        let range = max - min;
-        let sampleSize = valueData.length;
-        let calcCL = this.calculateControlLine(childChartType, mid, mean, range, std, null, null);
+        let range = max - min
+        let sampleSize = valueData.length
+        let calcCL = this.calculateControlLine(childChartType, mid, mean, range, std, null, null)
 
-        let ucl = calcCL.ucl;
-        let lcl = calcCL.lcl;
-        let cl = calcCL.cl;
+        let ucl = calcCL.ucl
+        let lcl = calcCL.lcl
+        let cl = calcCL.cl
 
         return {
-          title: "中位数-极差控制图(R图)",
+          title: '中位数-极差控制图(R图)',
           data: this.dData.data,
           columns: this.columns,
           showColumns: this.showColumns,
-          x: "dataTime",
-          y: "rangeSpan",
+          x: 'dataTime',
+          y: 'rangeSpan',
           yIndex: 8,
           //数据库有值先取数据库的
           ucl: ucl,
@@ -1197,38 +1233,42 @@ export default {
       this.chart2.clear()
 
       //依据当前的dp,计算上下界注入到对象中
-      this.calculateBounds(this.dData.dp1);
-      this.calculateBounds(this.dData.dp2);
+      this.calculateBounds(this.dData.dp1)
+      this.calculateBounds(this.dData.dp2)
 
       //创建echarts图表绘制格式
       if (!this.boxplotVisible) {
-        this.option1 = this.createOption(this.dData.dp1, this.legend, 1);
+        this.option1 = this.createOption(this.dData.dp1, this.legend, 1)
       } else {
-        this.option1 = this.createOption(this.dData.dp1, this.legend, 2);
+        this.option1 = this.createOption(this.dData.dp1, this.legend, 2)
       }
-      this.option2 = this.createOption(this.dData.dp2, this.legend2, 1);
+      this.option2 = this.createOption(this.dData.dp2, this.legend2, 1)
 
-      this.chart.setOption(this.option1);
-      this.chart2.setOption(this.option2);
+      this.chart.setOption(this.option1)
+      this.chart2.setOption(this.option2)
 
       //绑定右键对话框
       let that = this
-      this.chart.on("mousedown", function (params) {
-        let event = params.event;
+      this.chart.on('mousedown', function(params) {
+        let event = params.event
         //监听右键
         if (event.event.button === 2) {
           //定位对话框位置,显示数据
-          that.right.leftNumber = event.event.clientX;
-          that.right.topNumber = event.event.clientY;
-          that.right.rightVisible = true;
+          that.right.leftNumber = event.event.clientX
+          that.right.topNumber = event.event.clientY
+          that.right.rightVisible = true
 
-          //注入选中的数据和列名
-          that.right.dimensionNames = params.dimensionNames;
-          that.right.data = params.data;
+          //注入选中的数据和列名,如果没有,则应该是何须图,直接抽好了
+          if (params.dimensionNames.length > 0) {
+            that.right.dimensionNames = params.dimensionNames
+          } else {
+            that.right.dimensionNames = that.columns
+          }
+          that.right.data = params.data
         }
-      });
+      })
       //弹框说明
-      this.$message.success("绘制图表成功!");
+      this.$message.success('绘制图表成功!')
     },
     /**
      * 显示原始数据详情
@@ -1238,84 +1278,84 @@ export default {
       //设置id以及将分页设置为1
       this.right.queryParams.id = this.right.data[0]
       this.right.queryParams.pageNum = 1
-      this.getDetails();
-      this.right.rightVisible = false;
+      this.getDetails()
+      this.right.rightVisible = false
     },
     /**
      * 从服务器获取数据,使用当前的分页
      */
     getDetails() {
       listDataBySummaryId(this.right.queryParams).then(response => {
-        this.right.details.dataList = response.rows;
-        this.right.details.total = response.total;
-      });
+        this.right.details.dataList = response.rows
+        this.right.details.total = response.total
+      })
     },
     //隐藏,注释,删除点
     handleHiddenSummery() {
-      this.right.rightVisible = false;
+      this.right.rightVisible = false
       let dd = {
         id: this.right.data[0],
         validFlag: 0
-      };
-      this.$modal.confirm('是否确认隐藏数据点,隐藏的数据点作用于所有控制图，将不会参与进行计算').then(function () {
-        return hiddenSummary(dd);
+      }
+      this.$modal.confirm('是否确认隐藏数据点,隐藏的数据点作用于所有控制图，将不会参与进行计算').then(function() {
+        return hiddenSummary(dd)
       }).then(() => {
         //刷新页面
-        this.queryData();
-        this.$modal.msgSuccess("隐藏成功");
+        this.queryData()
+        this.$modal.msgSuccess('隐藏成功')
       }).catch(() => {
-      });
+      })
     },
     // 显示点
     handleShowSummery(id) {
       let dd = {
         id: id,
         validFlag: 1
-      };
-      this.$modal.confirm('是否显示隐藏数据点,显示的数据点作用于所有控制图').then(function () {
-        return hiddenSummary(dd);
+      }
+      this.$modal.confirm('是否显示隐藏数据点,显示的数据点作用于所有控制图').then(function() {
+        return hiddenSummary(dd)
       }).then(() => {
         //刷新页面.绘图
-        this.queryData();
+        this.queryData()
         //刷新列表
-        this.changeSummaryDivValidFlag(false);
-        this.$modal.msgSuccess("显示成功");
+        this.changeSummaryDivValidFlag(false)
+        this.$modal.msgSuccess('显示成功')
       }).catch(() => {
-      });
+      })
     },
     handleDeleteSummery() {
-      this.right.rightVisible = false;
-      const ids = [this.right.data[0]];
-      this.$modal.confirm('是否确认删除数据汇总编号为"' + ids + '"的数据项？删除只能通过重新计算恢复.').then(function () {
-        return delSummary(ids);
+      this.right.rightVisible = false
+      const ids = [this.right.data[0]]
+      this.$modal.confirm('是否确认删除数据汇总编号为"' + ids + '"的数据项？删除只能通过重新计算恢复.').then(function() {
+        return delSummary(ids)
       }).then(() => {
         //刷新页面
-        this.queryData();
-        this.$modal.msgSuccess("删除成功");
+        this.queryData()
+        this.$modal.msgSuccess('删除成功')
       }).catch(() => {
-      });
+      })
     },
     handleRemarkSummery() {
-      this.right.rightVisible = false;
+      this.right.rightVisible = false
       this.$prompt('备注点信息', {
         confirmButtonText: '确定',
-        cancelButtonText: '取消',
-      }).then(({value}) => {
+        cancelButtonText: '取消'
+      }).then(({ value }) => {
         let dd = {
           id: this.right.data[0],
           remark: value
         }
         remarkSummary(dd).then(() => {
           //刷新页面
-          this.queryData();
-          this.$modal.msgSuccess("备注成功");
-        });
+          this.queryData()
+          this.$modal.msgSuccess('备注成功')
+        })
       }).catch(() => {
         this.$message({
           type: 'info',
           message: '取消备注'
-        });
-      });
+        })
+      })
     },
     /**
      *  计算上下界
@@ -1334,63 +1374,63 @@ export default {
      */
     autoSpec() {
       //创建绘制参数
-      this.dData.dp1 = this.createDp(this.childChartType1, true);
-      this.dData.dp2 = this.createDp(this.childChartType2, true);
+      this.dData.dp1 = this.createDp(this.childChartType1, true)
+      this.dData.dp2 = this.createDp(this.childChartType2, true)
 
       //要求重绘
-      this.redrawChart();
+      this.redrawChart()
     },
     /**
      * 前端使用当前数据检查OOC
      */
     checkOOC() {
-      let config = this.ooc.config;
-      let data = this.dData.dp1.valueData;
-      let cl = this.dData.dp1.cl;
-      let std = this.dData.dp1.std;
+      let config = this.ooc.config
+      let data = this.dData.dp1.valueData
+      let cl = this.dData.dp1.cl
+      let std = this.dData.dp1.std
       let markPoint = {
         data: [],
-        symbol: "pin",
+        symbol: 'pin',
         itemStyle: {
           color: red
         }
-      };
+      }
       for (let element of config) {
         if (element.check === 1) {
-          let n = element.param;
+          let n = element.param
           switch (element.type) {
             // 1#:1个点,距离中心线大于n个标准差
             case 1: {
               for (let i = 0; i < data.length; i++) {
-                let us = cl + n * std;
-                let ls = cl - n * std;
+                let us = cl + n * std
+                let ls = cl - n * std
                 if (data[i] > us || data[i] < ls) {
                   markPoint.data.push({
                     value: markPoint.data.length,
                     coord: [i, data[i]],
                     label: {
-                      formatter: "#1"
+                      formatter: '#1'
                     },
-                    desc: "OOC超规:1# 1个点,距离中心线大于" + n + "个标准差;<br/>参考范围(" + ls.toFixed(3) + "," + us.toFixed(3) + "),当前值:" + data[i],
+                    desc: 'OOC超规:1# 1个点,距离中心线大于' + n + '个标准差;<br/>参考范围(' + ls.toFixed(3) + ',' + us.toFixed(3) + '),当前值:' + data[i]
                   })
                 }
               }
             }
-              break;
+              break
             // 2#:连续n点在中心线同一侧
             case 2: {
               for (let i = 0; i < data.length - n + 1; i++) {
                 //哪一边,和是否超限
-                let upSide = null;
-                let ooc = true;
+                let upSide = null
+                let ooc = true
                 for (let j = i; j < i + n; j++) {
                   if (upSide == null) {
-                    upSide = data[j] > cl;
+                    upSide = data[j] > cl
                   } else {
                     //出现不在同一侧的了,跳出
                     if ((data[j] > cl) !== upSide) {
-                      ooc = false;
-                      break;
+                      ooc = false
+                      break
                     }
                   }
                 }
@@ -1399,37 +1439,37 @@ export default {
                     value: markPoint.data.length,
                     coord: [i, data[i]],
                     label: {
-                      formatter: "#2"
+                      formatter: '#2'
                     },
-                    desc: "OOC超规:2# 连续" + n + "点在中心线同一侧<br/>从当前点往后的" + n + "点,位于中心线一侧",
+                    desc: 'OOC超规:2# 连续' + n + '点在中心线同一侧<br/>从当前点往后的' + n + '点,位于中心线一侧'
                   })
                 }
               }
             }
-              break;
+              break
             // 3#:连续n点全部递增或递减
             case 3: {
               for (let i = 0; i < data.length - n + 1; i++) {
                 //是否递增/减,和是否超限
-                let incremental = null;
-                let ooc = true;
+                let incremental = null
+                let ooc = true
                 for (let j = i; j < (i + n - 1); j++) {
                   if (incremental == null) {
                     if (data[j] === data[j + 1]) {
-                      ooc = false;
-                      break;
+                      ooc = false
+                      break
                     } else {
-                      incremental = data[j] < data[j + 1];
+                      incremental = data[j] < data[j + 1]
                     }
                   } else {
                     if (data[j] === data[j + 1]) {
-                      ooc = false;
-                      break;
+                      ooc = false
+                      break
                     }
                     //出现不是递增/减了,跳出
                     if ((data[j] < data[j + 1]) !== incremental) {
-                      ooc = false;
-                      break;
+                      ooc = false
+                      break
                     }
                   }
                 }
@@ -1438,37 +1478,37 @@ export default {
                     value: markPoint.data.length,
                     coord: [i, data[i]],
                     label: {
-                      formatter: "#3"
+                      formatter: '#3'
                     },
-                    desc: "OOC超规:3# 连续" + n + "点全部递增或递减<br/>从当前点往后的" + n + "点发生连续递增/减",
+                    desc: 'OOC超规:3# 连续' + n + '点全部递增或递减<br/>从当前点往后的' + n + '点发生连续递增/减'
                   })
                 }
               }
             }
-              break;
+              break
             // 4#:连续n点,上下交错
             case 4: {
               for (let i = 0; i < data.length - n + 1; i++) {
                 //当前是否递增
-                let incremental = null;
-                let ooc = true;
+                let incremental = null
+                let ooc = true
                 for (let j = i; j < (i + n - 1); j++) {
                   if (incremental == null) {
                     if (data[j] === data[j + 1]) {
-                      ooc = false;
-                      break;
+                      ooc = false
+                      break
                     } else {
-                      incremental = data[j] < data[j + 1];
+                      incremental = data[j] < data[j + 1]
                     }
                   } else {
                     if (data[j] === data[j + 1]) {
-                      ooc = false;
-                      break;
+                      ooc = false
+                      break
                     }
                     //出现连续递增/减,跳出
                     if ((data[j] > data[j + 1]) !== incremental) {
-                      ooc = false;
-                      break;
+                      ooc = false
+                      break
                     } else {
                       incremental = !incremental
                     }
@@ -1479,31 +1519,31 @@ export default {
                     value: markPoint.data.length,
                     coord: [i, data[i]],
                     label: {
-                      formatter: "#4",
+                      formatter: '#4'
                     },
-                    desc: "OOC超规:4# 连续" + n + "点,上下交错<br/>从当前点往后的连续" + n + "点发生上下交错",
+                    desc: 'OOC超规:4# 连续' + n + '点,上下交错<br/>从当前点往后的连续' + n + '点发生上下交错'
                   })
                 }
               }
             }
-              break;
+              break
             // 5#:连续n+1个点中有n个点,距离中心线(同一侧)大于2个标准差
             case 5: {
-              let us = cl + 2 * std;
-              let ls = cl - 2 * std;
+              let us = cl + 2 * std
+              let ls = cl - 2 * std
 
               for (let i = 0; i < data.length - n; i++) {
-                let std2Count = 0;
-                let upStd2Count = 0;
-                let downStd2Count = 0;
+                let std2Count = 0
+                let upStd2Count = 0
+                let downStd2Count = 0
                 for (let j = i; j < i + (n + 1); j++) {
                   if (data[j] > us || data[j] < ls) {
-                    std2Count++;
+                    std2Count++
                     if (data[j] > cl) {
-                      upStd2Count++;
+                      upStd2Count++
                     }
                     if (data[j] < cl) {
-                      downStd2Count++;
+                      downStd2Count++
                     }
                   }
                 }
@@ -1512,32 +1552,32 @@ export default {
                     value: markPoint.data.length,
                     coord: [i, data[i]],
                     label: {
-                      formatter: "#5"
+                      formatter: '#5'
                     },
-                    desc: "OOC超规:5# 连续" + (n + 1) + "个点中有" + n + "个点,距离中心线(同一侧)大于2个标准差<br/>从当前点往后的" + (n + 1) +
-                      "点出现,参考范围(" + ls.toFixed(3) + "," + us.toFixed(3) + ")"
+                    desc: 'OOC超规:5# 连续' + (n + 1) + '个点中有' + n + '个点,距离中心线(同一侧)大于2个标准差<br/>从当前点往后的' + (n + 1) +
+                      '点出现,参考范围(' + ls.toFixed(3) + ',' + us.toFixed(3) + ')'
                   })
                 }
               }
             }
-              break;
+              break
             // 6#:连续n+1个点中有n个点,距离中心线(同一侧)大于1个标准差
             case 6: {
-              let us = cl + std;
-              let ls = cl - std;
+              let us = cl + std
+              let ls = cl - std
 
               for (let i = 0; i < data.length - n; i++) {
-                let std2Count = 0;
-                let upStd2Count = 0;
-                let downStd2Count = 0;
+                let std2Count = 0
+                let upStd2Count = 0
+                let downStd2Count = 0
                 for (let j = i; j < i + (n + 1); j++) {
                   if (data[j] > us || data[j] < ls) {
-                    std2Count++;
+                    std2Count++
                     if (data[j] > cl) {
-                      upStd2Count++;
+                      upStd2Count++
                     }
                     if (data[j] < cl) {
-                      downStd2Count++;
+                      downStd2Count++
                     }
                   }
                 }
@@ -1546,27 +1586,27 @@ export default {
                     value: markPoint.data.length,
                     coord: [i, data[i]],
                     label: {
-                      formatter: "#6"
+                      formatter: '#6'
                     },
-                    desc: "OOC超规:6# 连续" + (n + 1) + "个点中有" + n + "个点,距离中心线(同一侧)大于1个标准差<br/>从当前点往后的" + (n + 1) +
-                      "点出现,参考范围(" + ls.toFixed(3) + "," + us.toFixed(3) + ")"
+                    desc: 'OOC超规:6# 连续' + (n + 1) + '个点中有' + n + '个点,距离中心线(同一侧)大于1个标准差<br/>从当前点往后的' + (n + 1) +
+                      '点出现,参考范围(' + ls.toFixed(3) + ',' + us.toFixed(3) + ')'
                   })
                 }
               }
             }
-              break;
+              break
             // 7#:连续n点,距离中心线(任意一侧)1个标准差以内
             case 7: {
-              let us = cl + std;
-              let ls = cl - std;
+              let us = cl + std
+              let ls = cl - std
 
               for (let i = 0; i < data.length - n + 1; i++) {
-                let ooc = true;
+                let ooc = true
                 for (let j = i; j < i + n; j++) {
                   // 出现大于/小于一个std,
                   if (data[j] > us || data[j] < ls) {
-                    ooc = false;
-                    break;
+                    ooc = false
+                    break
                   }
                 }
                 if (ooc) {
@@ -1574,27 +1614,27 @@ export default {
                     value: markPoint.data.length,
                     coord: [i, data[i]],
                     label: {
-                      formatter: "#7"
+                      formatter: '#7'
                     },
-                    desc: "OOC超规:7# 连续" + n + "个点,距离中心线(任意一侧)1个标准差以内<br/>从当前点往后的" + n +
-                      "点出现,参考范围(" + ls.toFixed(3) + "," + us.toFixed(3) + ")"
+                    desc: 'OOC超规:7# 连续' + n + '个点,距离中心线(任意一侧)1个标准差以内<br/>从当前点往后的' + n +
+                      '点出现,参考范围(' + ls.toFixed(3) + ',' + us.toFixed(3) + ')'
                   })
                 }
               }
             }
-              break;
+              break
             // 8#:连续n个点,距离中心线(任意一侧)大于1个标准差
             case 8: {
-              let us = cl + std;
-              let ls = cl - std;
+              let us = cl + std
+              let ls = cl - std
 
               for (let i = 0; i < data.length - n + 1; i++) {
-                let ooc = true;
+                let ooc = true
                 for (let j = i; j < i + n; j++) {
                   // 出现在一个std之内的,
                   if (data[j] < us && data[j] > ls) {
-                    ooc = false;
-                    break;
+                    ooc = false
+                    break
                   }
                 }
                 if (ooc) {
@@ -1602,27 +1642,27 @@ export default {
                     value: markPoint.data.length,
                     coord: [i, data[i]],
                     label: {
-                      formatter: "#8"
+                      formatter: '#8'
                     },
-                    desc: "OOC超规:8# 连续" + n + "个点,距离中心线(任意一侧)大于1个标准差<br/>从当前点往后的" + n +
-                      "点出现,参考范围(" + ls.toFixed(3) + "," + us.toFixed(3) + ")"
+                    desc: 'OOC超规:8# 连续' + n + '个点,距离中心线(任意一侧)大于1个标准差<br/>从当前点往后的' + n +
+                      '点出现,参考范围(' + ls.toFixed(3) + ',' + us.toFixed(3) + ')'
                   })
                 }
               }
             }
-              break;
+              break
           }
         }
       }
 
-      this.dData.dp1.oocMarkPoint = markPoint;
-      this.ooc.oocVisible = false;
-      this.redrawChart();
+      this.dData.dp1.oocMarkPoint = markPoint
+      this.ooc.oocVisible = false
+      this.redrawChart()
     },
     saveOOC() {
       saveOOC(this.oData.chart.id, JSON.stringify(this.ooc.config)).then(() => {
         this.checkOOC()
-      });
+      })
     },
     /**
      * 计算控制线,注意,必须在analyzeData之后调用
@@ -1636,29 +1676,29 @@ export default {
      * @returns {{}}
      */
     calculateControlLine(childChartType, mid, mean, range, std, usl, lsl) {
-      let rs = {};
+      let rs = {}
       //依据类型来计算CL,LCL,UCL
       //xBar-R
       if (childChartType === 1 || childChartType === 2) {
-        rs.cl = mean;
-        rs.ucl = mean + (this.dData.chartConfig.a2 * range);
-        rs.lcl = mean - (this.dData.chartConfig.a2 * range);
+        rs.cl = mean
+        rs.ucl = mean + (this.dData.chartConfig.a2 * range)
+        rs.lcl = mean - (this.dData.chartConfig.a2 * range)
       }
       //xBar-S
       else if (childChartType === 3 || childChartType === 4) {
-        rs.cl = mean;
-        rs.ucl = mean + (this.dData.chartConfig.k1 * std);
-        rs.lcl = mean - (this.dData.chartConfig.k2 * std);
+        rs.cl = mean
+        rs.ucl = mean + (this.dData.chartConfig.k1 * std)
+        rs.lcl = mean - (this.dData.chartConfig.k2 * std)
       } else if (childChartType === 5 || childChartType === 6) {
-        rs.cl = mid;
-        rs.ucl = mid + (this.dData.chartConfig.m3 * range);
-        rs.lcl = mid - (this.dData.chartConfig.m3 * range);
+        rs.cl = mid
+        rs.ucl = mid + (this.dData.chartConfig.m3 * range)
+        rs.lcl = mid - (this.dData.chartConfig.m3 * range)
       }
       //从数据库来的参数情况
       else {
-        rs.cl = this.oData.chart.cl;
-        rs.ucl = this.oData.chart.ucl;
-        rs.lcl = this.oData.chart.lcl;
+        rs.cl = this.oData.chart.cl
+        rs.ucl = this.oData.chart.ucl
+        rs.lcl = this.oData.chart.lcl
       }
 
       //控制到小数点后3位,防止位数太长了
@@ -1672,8 +1712,8 @@ export default {
             message: `ucl:${rs.ucl}不能大于usl ${usl},请手动设定控制线/参数,或隐藏异常点`,
             duration: 0,
             showClose: true
-          });
-        }, 20);
+          })
+        }, 20)
 
       }
       if (lsl && rs.lcl <= lsl) {
@@ -1682,66 +1722,66 @@ export default {
             message: `lcl:${rs.lcl}不能小于lsl ${lsl},请手动设定控制线/参数,或隐藏异常点`,
             duration: 0,
             showClose: true
-          });
-        }, 30);
+          })
+        }, 30)
       }
-      return rs;
+      return rs
     },
-    creatMarkLine(dp, legend){
-      let markLine = [];
+    creatMarkLine(dp, legend) {
+      let markLine = []
       if (legend.uclShow) {
         markLine.push(
           {
             name: 'UCL',
             yAxis: dp.ucl,
-            lineStyle: {color: yellow},
-            label: {color: yellow, formatter: 'UCL:' + dp.ucl, fontSize: 10}
-          });
+            lineStyle: { color: yellow },
+            label: { color: yellow, formatter: 'UCL:' + dp.ucl, fontSize: 10 }
+          })
       }
       if (legend.clShow) {
         markLine.push(
           {
             name: 'CL',
             yAxis: dp.cl,
-            lineStyle: {color: green},
-            label: {color: green, formatter: 'CL:' + dp.cl, fontSize: 10}
-          });
+            lineStyle: { color: green },
+            label: { color: green, formatter: 'CL:' + dp.cl, fontSize: 10 }
+          })
       }
       if (legend.lclShow) {
         markLine.push(
           {
             name: 'LCL',
             yAxis: dp.lcl,
-            lineStyle: {color: yellow},
-            label: {color: yellow, formatter: 'LCL:' + dp.lcl, fontSize: 10}
-          });
+            lineStyle: { color: yellow },
+            label: { color: yellow, formatter: 'LCL:' + dp.lcl, fontSize: 10 }
+          })
       }
       //存在usl时绘制usl和lsl线
       if (dp.usl && legend.uslShow) {
         markLine.push({
           name: 'USL',
           yAxis: dp.usl,
-          lineStyle: {color: red},
-          label: {color: red, formatter: 'USL:' + dp.usl, fontSize: 10}
-        });
+          lineStyle: { color: red },
+          label: { color: red, formatter: 'USL:' + dp.usl, fontSize: 10 }
+        })
       }
       if (dp.target && legend.targetShow) {
         markLine.push({
           name: 'TARGET',
           yAxis: dp.target,
-          lineStyle: {color: blue},
-          label: {color: blue, formatter: 'TARGET:' + dp.target, fontSize: 10}
-        });
+          lineStyle: { color: blue },
+          label: { color: blue, formatter: 'TARGET:' + dp.target, fontSize: 10 }
+        })
       }
       if (dp.lsl && legend.lslShow) {
         markLine.push({
           name: 'LSL',
           yAxis: dp.lsl,
-          lineStyle: {color: red},
-          label: {color: red, formatter: 'LSL:' + dp.lsl, fontSize: 10}
-        });
+          lineStyle: { color: red },
+          label: { color: red, formatter: 'LSL:' + dp.lsl, fontSize: 10 }
+        })
       }
-      return markLine;
+      return markLine
     },
     /**
      * 创建Option
@@ -1766,18 +1806,18 @@ export default {
      */
     createOption(dp, legend, drawChartType) {
       if (drawChartType === 1) {
-        let markLine = this.creatMarkLine(dp,legend);
+        let markLine = this.creatMarkLine(dp, legend)
         return {
           grid: {
-            left: "5%",
+            left: '5%',
             bottom: 70
           },
           title: {
             text: dp.title,
             textStyle: {
-              color: "#606266"
+              color: '#606266'
             },
-            left: "center"
+            left: 'center'
           },
           tooltip: {
             trigger: 'item',
@@ -1785,15 +1825,15 @@ export default {
             axisPointer: {
               type: 'cross'
             },
-            formatter: function (params) {
-              if (params.componentType === "series") {
+            formatter: function(params) {
+              if (params.componentType === 'series') {
                 // dp.yIndex 即数据值的编号，在均值图中就是均值，中位数图就是中位数，极差图就是极差
                 return `id: ${params.value[0]}<br/>
                       批次号: ${params.value[3]}<br/>
                       数据值: ${params.value[dp.yIndex]}<br/>
                       数据时间: ${params.value[4]}<br/>
                       样本容量: ${params.value[12]}<br/>
-                      备注: ${params.value[19]}<br/>`;
+                      备注: ${params.value[19]}<br/>`
                 // 可能用的的其他的参数
                 // paramKey: ${params.value[5]}<br/>
                 // mean: ${params.value[6]}<br/>
@@ -1807,9 +1847,9 @@ export default {
                 // 产品型号: ${params.value[15]}<br/>
                 // 站点编号: ${params.value[16]}<br/>
                 // 工艺号: ${params.value[17]}<br/>
-              } else if (params.componentType === "markPoint") {
+              } else if (params.componentType === 'markPoint') {
                 // console.log(params)
-                return params.data.desc;
+                return params.data.desc
               } else {
                 return '未定义的tooltip类型'
               }
@@ -1820,18 +1860,18 @@ export default {
             axisLabel: {
               rotate: 90,
               //格式化x轴数据
-              formatter: function (value, index) {
-                let date = new Date(value);
+              formatter: function(value, index) {
+                let date = new Date(value)
                 if (isNaN(date.getTime())) {
-                  return value;
+                  return value
                 } else {
                   // return value.replace(" ","\n")
-                  return (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
+                  return (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes()
                   // return (date.getFullYear() % 100).toString().padStart(2, '0') + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
                   // return date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
                 }
               }
-            },
+            }
           },
           yAxis: {
             type: 'value',
@@ -1844,7 +1884,7 @@ export default {
               dimensions: dp.columns,
               //定义数据内容
               source: dp.data
-            },
+            }
           ],
           series: [
             {
@@ -1855,40 +1895,40 @@ export default {
               //定义xy轴取数据那一列值
               encode: {
                 x: dp.x,
-                y: dp.y,
+                y: dp.y
                 // 自动展示列
                 // tooltip: dp.showColumns,
               },
               //定义点样式,依据数据定义点样式以及大小颜色
-              symbol: function (params) {
+              symbol: function(params) {
                 if (params[dp.yIndex] > dp.ucl || params[dp.yIndex] < dp.lcl) {
                   if (dp.usl && (params[dp.yIndex] > dp.usl || params[dp.yIndex] < dp.lsl)) {
-                    return 'triangle';
+                    return 'triangle'
                   }
-                  return 'circle';
+                  return 'circle'
                 } else {
-                  return 'emptyCircle';
+                  return 'emptyCircle'
                 }
               },
-              symbolSize: function (params) {
+              symbolSize: function(params) {
                 if (params[dp.yIndex] > dp.ucl || params[dp.yIndex] < dp.lcl) {
                   if (dp.usl && (params[dp.yIndex] > dp.usl || params[dp.yIndex] < dp.lsl)) {
-                    return 10;
+                    return 10
                   }
-                  return 9;
+                  return 9
                 } else {
-                  return 8;
+                  return 8
                 }
               },
               itemStyle: {
-                color: function (params) {
+                color: function(params) {
                   if (params.data[dp.yIndex] > dp.ucl || params.data[dp.yIndex] < dp.lcl) {
                     if (dp.usl && (params.data[dp.yIndex] > dp.usl || params.data[dp.yIndex] < dp.lsl)) {
-                      return red;
+                      return red
                     }
-                    return yellow;
+                    return yellow
                   } else {
-                    return green;
+                    return green
                   }
                 }
               },
@@ -1913,7 +1953,7 @@ export default {
               type: 'inside',
               yAxisIndex: [0],
               filterMode: 'none'
-            },
+            }
             // x缩放轴
             // {
             //   type: 'slider',
@@ -1927,41 +1967,41 @@ export default {
             //   xAxisIndex: [0],
             //   filterMode : 'none'
             // }
-          ],
-        };
+          ]
+        }
       } else if (drawChartType === 2) {
-        let markLine = this.creatMarkLine(dp,legend);
+        let markLine = this.creatMarkLine(dp, legend)
         return {
           grid: {
-            left: "5%",
+            left: '5%',
             bottom: 70
           },
           title: [{
-            text: "盒须图视图",
+            text: '盒须图视图',
             textStyle: {
-              color: "#606266"
+              color: '#606266'
             },
-            left: "center"
+            left: 'center'
           }],
           xAxis: {
             type: 'category',
             axisLabel: {
               rotate: 90,
               //格式化x轴数据
-              formatter: function (value, index) {
-                let date = new Date(value);
+              formatter: function(value, index) {
+                let date = new Date(value)
                 if (isNaN(date.getTime())) {
-                  return value;
+                  return value
                 } else {
-                  return (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
+                  return (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes()
                 }
               }
-            },
+            }
           },
           yAxis: {
             type: 'value',
             max: this.dData.globalMax,
-            min: this.dData.globalMin,
+            min: this.dData.globalMin
           },
           dataset: [
             {
@@ -1969,7 +2009,7 @@ export default {
               dimensions: dp.columns,
               //定义数据内容
               source: dp.data
-            },
+            }
           ],
           series: [
             {
@@ -1980,7 +2020,7 @@ export default {
               //定义xy轴取数据那一列值
               encode: {
                 x: dp.x,
-                y: ['min',  'q1',  'mid',  'q3',  'max'],
+                y: ['min', 'q1', 'mid', 'q3', 'max']
                 // 自动展示列
                 // tooltip: dp.showColumns,
               },
@@ -1989,7 +2029,7 @@ export default {
                 silent: true,
                 symbol: 'none',
                 data: markLine
-              },
+              }
             }
           ],
           dataZoom: [
@@ -2004,7 +2044,7 @@ export default {
               type: 'inside',
               yAxisIndex: [0],
               filterMode: 'none'
-            },
+            }
             // x缩放轴
             // {
             //   type: 'slider',
@@ -2021,9 +2061,9 @@ export default {
           ]
         }
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>

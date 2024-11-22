@@ -90,3 +90,12 @@ export function saveOOC(id,ooc) {
     }
   })
 }
+
+// 查询spc管制图列表
+export function listDataRowBySummaryId(query) {
+  return request({
+    url: '/spc/chart/listDataRowBySummaryId',
+    method: 'get',
+    params: query
+  })
+}
